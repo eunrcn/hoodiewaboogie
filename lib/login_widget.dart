@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:hoodie_w_a_boogie/main.dart';
 import 'package:hoodie_w_a_boogie/utils.dart';
+import 'package:hoodie_w_a_boogie/forgot_password_page.dart';
 
 class LoginWidget extends StatefulWidget {
   final VoidCallback onClickedSignUp;
@@ -62,6 +63,23 @@ class _LoginWidgetState extends State<LoginWidget> {
                 onPressed: signIn,
               ),
               const SizedBox(height: 24),
+              GestureDetector(
+                child: const Text(
+                  'Forgot Password',
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    color: Colors.black87,
+                    fontSize: 20,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const ForgotPasswordPage(),
+                    ),
+                  );
+                },
+              ),
               RichText(
                 text: TextSpan(
                   style: const TextStyle(

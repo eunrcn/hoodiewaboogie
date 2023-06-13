@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hoodie_w_a_boogie/auth_page.dart';
 import 'package:hoodie_w_a_boogie/map.dart';
 import 'package:hoodie_w_a_boogie/utils.dart';
+import 'package:hoodie_w_a_boogie/verify_email_page.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +29,7 @@ class MainPage extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasData) {
-                return const Home();
+                return const VerifyEmailPage();
               } else if (snapshot.hasError) {
                 return const Center(
                   child: Text('Something went wrong!'),
@@ -55,7 +56,7 @@ class Home extends StatelessWidget {
           title: const Text('hoodie w a boogie'),
         ),
         body: Padding(
-            padding: const EdgeInsets.all(32),
+            padding: const EdgeInsets.only(left: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
