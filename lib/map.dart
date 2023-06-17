@@ -10,7 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 //dart imports
 import 'dart:async';
-import 'dart:ffi';
+// import 'dart:ffi';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
@@ -38,7 +38,7 @@ class _MapAppState extends ConsumerState<MapApp> {
   //Debounce to throttle async calls during search
   Timer? _debounce;
 
-  final LatLng _center = const LatLng(45.521563, -122.677433);
+  // final LatLng _center = const LatLng(45.521563, -122.677433);
 
   // void _onMapCreated(GoogleMapController controller) {
   //   mapController = controller;
