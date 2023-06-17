@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
+//providerscope
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
 // imports for other pages
 import 'package:hoodie_w_a_boogie/home_page.dart';
 
-//imports for prettifying
+// imports for prettifying
 import 'package:lottie/lottie.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-// void main() {
-//   runApp(const ProviderScope(child: MyApp()));
-// }
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  runApp(const MainPage());
+  runApp(const ProviderScope(child: MainPage()));
 }
 
 final navigatorKey = GlobalKey<NavigatorState>();

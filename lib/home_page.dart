@@ -16,6 +16,7 @@ Future home() async {
   await Firebase.initializeApp();
 
   runApp(const HomePage());
+  
 }
 
 final navigatorKey = GlobalKey<NavigatorState>();
