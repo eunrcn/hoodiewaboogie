@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hoodie_w_a_boogie/auth_page.dart';
-import 'package:hoodie_w_a_boogie/map.dart';
-import 'package:hoodie_w_a_boogie/utils.dart';
-import 'package:hoodie_w_a_boogie/verify_email_page.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+
+// imports for other pages
+import 'package:hoodie_w_a_boogie/home_page.dart';
+
+//imports for prettifying
+import 'package:lottie/lottie.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// void main() {
+//   runApp(const ProviderScope(child: MyApp()));
+// }
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,80 +23,44 @@ Future main() async {
 final navigatorKey = GlobalKey<NavigatorState>();
 
 class MainPage extends StatelessWidget {
-  const MainPage({super.key});
+  const MainPage({Key? key}) : super(key: key);
 
+  // This widget is the root of your application.
   @override
-  Widget build(context) => MaterialApp(
-        scaffoldMessengerKey: messengerKey,
-        navigatorKey: navigatorKey,
-        home: Scaffold(
-          body: StreamBuilder<User?>(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasData) {
-                return const VerifyEmailPage();
-              } else if (snapshot.hasError) {
-                return const Center(
-                  child: Text('Something went wrong!'),
-                );
-              } else {
-                return const AuthPage();
-              }
-            },
-          ),
-        ),
-      );
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'hoodie w a boogie',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(),
+      home: SplashScreen(),
+    );
+  }
 }
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration(seconds: 5)).then((value) => Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => HomePage())));
+  }
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser!;
-
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('hoodie w a boogie'),
-        ),
-        body: Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Signed In as',
-                  style: TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  user.email!,
-                  style: const TextStyle(fontSize: 20),
-                ),
-                const SizedBox(height: 40),
-                ElevatedButton.icon(
-                  onPressed: () => FirebaseAuth.instance.signOut(),
-                  icon: const Icon(Icons.arrow_back, size: 32),
-                  label: const Text(
-                    'Sign Out!',
-                    style: TextStyle(fontSize: 24),
-                  ),
-                ),
-              ],
-            )),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const MapApp()),
-            );
-          },
-          tooltip: 'Head to Maps!',
-          child: const Icon(Icons.map),
-        ),
+    return Scaffold(
+      body: Center(
+        child: Container(
+            height: 200.0,
+            width: 200.0,
+            child: LottieBuilder.asset('assets/animassets/mapanimation.json')),
       ),
     );
   }
