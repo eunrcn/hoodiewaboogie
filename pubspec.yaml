@@ -1,10 +1,14 @@
 name: hoodie_w_a_boogie
 description: A new Flutter project.
-publish_to: 'none'
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
 version: 0.1.0
 
 environment:
-  sdk: '>=3.0.3 <4.0.0'
+  sdk: ">=3.0.3 <4.0.0"
 
 dependencies:
   firebase_auth: ^4.6.2
@@ -12,19 +16,23 @@ dependencies:
   firebase_core: ^2.13.1
   email_validator: ^2.1.17
 
-  google_maps_flutter: ^2.3.0
-  google_maps_flutter_android: ^2.4.15
-
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   lottie: ^2.0.0
   fab_circular_menu: ^1.0.0
   flip_card:
-  flutter_riverpod: ^2.3.6 
+  flutter_riverpod: ^2.3.6
   http:
   dartz:
   flutter_polyline_points:
   flutter_rating_stars:
 
+  # location services
+  location: ^4.3.0
+  google_maps_flutter: ^2.3.0
+  google_maps_flutter_android: ^2.4.15
+  permission_handler: ^8.1.4+2
 
   flutter:
     sdk: flutter
@@ -76,6 +84,6 @@ flutter:
   #         weight: 400
   #       - asset: assets/fonts/WorkSans-ExtraLight.ttf
   #         weight: 100
-  # 
+  #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

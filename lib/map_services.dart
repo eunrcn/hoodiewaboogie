@@ -11,7 +11,7 @@ class MapServices {
 
   Future<List<AutoCompleteResult>> searchPlaces(String searchInput) async {
     final String url =
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$searchInput&types=$types&key=$key';
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$searchInput&types=$types&key=AIzaSyD0W1i0JbQoQnYDZO9YM5LO_AU0kHZhdZY';
 
     var response = await http.get(Uri.parse(url));
 
@@ -24,7 +24,7 @@ class MapServices {
 
   Future<Map<String, dynamic>> getPlace(String? input) async {
     final String url =
-        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$input&key=$key';
+        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$input&key=AIzaSyD0W1i0JbQoQnYDZO9YM5LO_AU0kHZhdZY';
 
     var response = await http.get(Uri.parse(url));
 
@@ -38,7 +38,7 @@ class MapServices {
   Future<Map<String, dynamic>> getDirections(
       String origin, String destination) async {
     final String url =
-        'https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&key=$key';
+        'https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&key=AIzaSyD0W1i0JbQoQnYDZO9YM5LO_AU0kHZhdZY';
 
     var response = await http.get(Uri.parse(url));
 
@@ -62,7 +62,7 @@ class MapServices {
     var lng = coords.longitude;
 
     final String url =
-        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?&location=$lat,$lng&radius=$radius&key=$key';
+        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?&location=$lat,$lng&radius=$radius&key=AIzaSyD0W1i0JbQoQnYDZO9YM5LO_AU0kHZhdZY';
 
     var response = await http.get(Uri.parse(url));
 
@@ -73,7 +73,7 @@ class MapServices {
 
   Future<dynamic> getMorePlaceDetails(String token) async {
     final String url =
-        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?&pagetoken=$token&key=$key';
+        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?&pagetoken=$token&key=rAIzaSyD0W1i0JbQoQnYDZO9YM5LO_AU0kHZhdZY';
 
     var response = await http.get(Uri.parse(url));
 

@@ -10,7 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 //dart imports
 import 'dart:async';
-// import 'dart:ffi';
+import 'dart:ffi';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
@@ -77,7 +77,7 @@ class _MapAppState extends ConsumerState<MapApp> {
   bool isReviews = true;
   bool isPhotos = false;
 
-  final key = '<yourkeyhere>';
+  final key = 'AIzaSyD0W1i0JbQoQnYDZO9YM5LO_AU0kHZhdZY';
 
   var selectedPlaceDetails;
 
@@ -609,7 +609,7 @@ class _MapAppState extends ConsumerState<MapApp> {
                                       ),
                                       image: DecorationImage(
                                           image: NetworkImage(placeImg != ''
-                                              ? 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$placeImg&key=$key'
+                                              ? 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$placeImg&key=AIzaSyD0W1i0JbQoQnYDZO9YM5LO_AU0kHZhdZY'
                                               : 'https://pic.onlinewebfonts.com/svg/img_546302.png'),
                                           fit: BoxFit.cover)),
                                 ),
@@ -915,7 +915,7 @@ class _MapAppState extends ConsumerState<MapApp> {
                   borderRadius: BorderRadius.circular(10.0),
                   image: DecorationImage(
                       image: NetworkImage(
-                          'https://maps.googleapis.com/maps/api/place/photo?maxwidth=$maxWidth&maxheight=$maxHeight&photo_reference=$placeImg&key=$key'),
+                          'https://maps.googleapis.com/maps/api/place/photo?maxwidth=$maxWidth&maxheight=$maxHeight&photo_reference=$placeImg&key=AIzaSyD0W1i0JbQoQnYDZO9YM5LO_AU0kHZhdZY'),
                       fit: BoxFit.cover))),
           SizedBox(height: 10.0),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
@@ -1083,7 +1083,7 @@ class _MapAppState extends ConsumerState<MapApp> {
                                       ),
                                       image: DecorationImage(
                                           image: NetworkImage(placeImg != ''
-                                              ? 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$placeImg&key=$key'
+                                              ? 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$placeImg&key=AIzaSyD0W1i0JbQoQnYDZO9YM5LO_AU0kHZhdZY'
                                               : 'https://pic.onlinewebfonts.com/svg/img_546302.png'),
                                           fit: BoxFit.cover)),
                                 )
