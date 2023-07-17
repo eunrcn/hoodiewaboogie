@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">409397660719-7uk4040pbfm9t84iq4qrffcihcf6ssc1.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">409397660719</string>
+    <string name="google_api_key" translatable="false">AIzaSyD0W1i0JbQoQnYDZO9YM5LO_AU0kHZhdZY</string>
+    <string name="google_app_id" translatable="false">1:409397660719:android:fe080c9af7ecc3f608cada</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyD0W1i0JbQoQnYDZO9YM5LO_AU0kHZhdZY</string>
+    <string name="google_storage_bucket" translatable="false">hoodie-w-a-boogie.appspot.com</string>
+    <string name="project_id" translatable="false">hoodie-w-a-boogie</string>
+</resources>
