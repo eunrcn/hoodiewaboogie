@@ -23,6 +23,32 @@ import 'package:hoodie_w_a_boogie/map_services.dart';
 import 'package:hoodie_w_a_boogie/auto_complete_result.dart';
 import 'package:hoodie_w_a_boogie/search_places.dart';
 
+// firebase
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+// xt!!
+class UserSearch {
+  final String query;
+  final DateTime timestamp;
+  final String userId;
+
+  UserSearch({
+    required this.query,
+    required this.timestamp,
+    required this.userId,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'query': query,
+      'timestamp': timestamp,
+      'userId': userId,
+    };
+  }
+}
+
 class MapApp extends ConsumerStatefulWidget {
   const MapApp({Key? key}) : super(key: key);
 
@@ -145,25 +171,25 @@ class _MapAppState extends ConsumerState<MapApp> {
 
     final Uint8List markerIcon;
 
-    if (types.contains('restaurants'))
+    if (types.contains('restaurants')) {
       markerIcon =
-          await getBytesFromAsset('assets/mapicons/restaurants.png', 75);
-    else if (types.contains('food'))
-      markerIcon = await getBytesFromAsset('assets/mapicons/food.png', 75);
-    else if (types.contains('school'))
-      markerIcon = await getBytesFromAsset('assets/mapicons/schools.png', 75);
-    else if (types.contains('bar'))
-      markerIcon = await getBytesFromAsset('assets/mapicons/bars.png', 75);
-    else if (types.contains('lodging'))
-      markerIcon = await getBytesFromAsset('assets/mapicons/hotels.png', 75);
+          await getBytesFromAsset('assets/mapicons/restaurants.png', 75);}
+    else if (types.contains('food')) {
+      markerIcon = await getBytesFromAsset('assets/mapicons/food.png', 75);}
+    else if (types.contains('school')) {
+      markerIcon = await getBytesFromAsset('assets/mapicons/schools.png', 75);}
+    else if (types.contains('bar')) {
+      markerIcon = await getBytesFromAsset('assets/mapicons/bars.png', 75);}
+    else if (types.contains('lodging')) {
+      markerIcon = await getBytesFromAsset('assets/mapicons/hotels.png', 75);}
     else if (types.contains('store'))
       markerIcon =
           await getBytesFromAsset('assets/mapicons/retail-stores.png', 75);
-    else if (types.contains('locality'))
+    else if (types.contains('locality')) {
       markerIcon =
-          await getBytesFromAsset('assets/mapicons/local-services.png', 75);
-    else
-      markerIcon = await getBytesFromAsset('assets/mapicons/places.png', 75);
+          await getBytesFromAsset('assets/mapicons/local-services.png', 75);}
+    else {
+      markerIcon = await getBytesFromAsset('assets/mapicons/places.png', 75);}
 
     final Marker marker = Marker(
         markerId: MarkerId('marker_$counter'),
@@ -219,6 +245,30 @@ class _MapAppState extends ConsumerState<MapApp> {
     } else {
       placeImg = '';
     }
+  }
+
+  // xt!!
+  void saveUserSearch(String query, String userId) {
+    final CollectionReference usersCollection =
+        FirebaseFirestore.instance.collection('users');
+
+    UserSearch search = UserSearch(
+      query: query,
+      timestamp: DateTime.now(),
+      userId: userId,
+    );
+
+    usersCollection
+        .doc(userId) // Use the user's ID as the document ID
+        .collection('searches') // Create a collection called "searches"
+        .add(search.toMap())
+        .then((value) {
+      // Data saved successfully
+      print('User search data saved successfully!');
+    }).catchError((error) {
+      // An error occurred while saving the data
+      print('Failed to save user search data: $error');
+    });
   }
 
   @override
@@ -293,6 +343,10 @@ class _MapAppState extends ConsumerState<MapApp> {
                                 _debounce = Timer(Duration(milliseconds: 700),
                                     () async {
                                   if (value.length > 2) {
+                                    String? userId = FirebaseAuth.instance.currentUser?.uid;// xt!!
+                                    if (userId != null) {
+                                      saveUserSearch(value, userId); // xt!!
+                                    }
                                     if (!searchFlag.searchToggle) {
                                       searchFlag.toggleSearch();
                                       _markers = {};

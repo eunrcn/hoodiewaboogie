@@ -7,6 +7,7 @@ import 'package:hoodie_w_a_boogie/auth_page.dart';
 import 'package:hoodie_w_a_boogie/map.dart';
 import 'package:hoodie_w_a_boogie/utils.dart';
 import 'package:hoodie_w_a_boogie/verify_email_page.dart';
+import 'package:hoodie_w_a_boogie/profile.dart';
 
 //imports for prettifying
 // import 'package:lottie/lottie.dart';
@@ -49,53 +50,86 @@ class HomePage extends StatelessWidget {
       );
 }
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class Home extends StatefulWidget {
+  const Home({Key? key});
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  int _currentIndex = 1;
+  final PageController _pageController = PageController(initialPage: 1);
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
 
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('hoodie w a boogie'),
-        ),
-        body: Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Signed In as',
-                  style: TextStyle(fontSize: 16),
+    return Scaffold(
+      appBar: null,
+      body: IndexedStack(
+        index: _currentIndex,
+        children: [
+          MapApp(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Signed In as',
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                user.email!,
+                style: const TextStyle(fontSize: 20),
+              ),
+              const SizedBox(height: 40),
+              ElevatedButton.icon(
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                },
+                icon: const Icon(Icons.arrow_back, size: 32),
+                label: const Text(
+                  'Sign Out!',
+                  style: TextStyle(fontSize: 24),
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  user.email!,
-                  style: const TextStyle(fontSize: 20),
-                ),
-                const SizedBox(height: 40),
-                ElevatedButton.icon(
-                  onPressed: () => FirebaseAuth.instance.signOut(),
-                  icon: const Icon(Icons.arrow_back, size: 32),
-                  label: const Text(
-                    'Sign Out!',
-                    style: TextStyle(fontSize: 24),
-                  ),
-                ),
-              ],
-            )),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const MapApp()),
-            );
-          },
-          tooltip: 'Head to Maps!',
-          child: const Icon(Icons.map),
-        ),
+              ),
+            ],
+          ),
+          ProfilePage(),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Map',
+            backgroundColor: Colors.blue,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+            backgroundColor: Colors.blue,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+            backgroundColor: Colors.blue,
+          ),
+        ],
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+          _pageController.jumpToPage(index);
+        },
       ),
     );
   }

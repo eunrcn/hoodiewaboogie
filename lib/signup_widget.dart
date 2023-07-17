@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
@@ -22,14 +23,17 @@ class SignUpWidget extends StatefulWidget {
 
 class _SignUpWidgetState extends State<SignUpWidget> {
   final formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final cuisineController = TextEditingController();
 
   @override
   void dispose() {
+    nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
-
+    cuisineController.dispose();
     super.dispose();
   }
 
@@ -51,19 +55,39 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               ),
               const SizedBox(height: 40),
               TextFormField(
+                controller: nameController,
+                textInputAction: TextInputAction.next,
+                decoration: const InputDecoration(labelText: 'Name'),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (name) {
+                  return name!.isEmpty ? 'Please enter your name' : null;
+                },
+              ),
+              TextFormField(
                 controller: emailController,
                 cursorColor: Colors.white,
                 textInputAction: TextInputAction.next,
                 decoration: const InputDecoration(labelText: 'Email'),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (email) {
-                  email != null && !EmailValidator.validate(email)
-                      ? 'Enter a valid email'
-                      : null;
+                  if (email != null && !EmailValidator.validate(email)) {
+                    return 'Enter a valid email';
+                  }
                   return null;
                 },
               ),
-              const SizedBox(height: 4),
+              TextFormField(
+                controller: cuisineController,
+                textInputAction: TextInputAction.next,
+                decoration:
+                    const InputDecoration(labelText: 'Favorite Cuisine'),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (cuisine) {
+                  return cuisine!.isEmpty
+                      ? 'Please enter your favorite cuisine'
+                      : null;
+                },
+              ),
               TextFormField(
                 controller: passwordController,
                 textInputAction: TextInputAction.next,
@@ -71,9 +95,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                 obscureText: true,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
-                  value != null && value.length == 6
-                      ? 'Enter min. 6 characters'
-                      : null;
+                  if (value != null && value.length < 6) {
+                    return 'Enter min. 6 characters';
+                  }
                   return null;
                 },
               ),
@@ -109,7 +133,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         ),
       );
 
-  Future signUp() async {
+  Future<void> signUp() async {
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
 
@@ -122,14 +146,32 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     );
 
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      );
-    } on FirebaseAuthException catch (e) {
-      // ignore: avoid_print
-      print(e);
+      final name = nameController.text.trim();
+      final email = emailController.text.trim();
+      final password = passwordController.text.trim();
+      final cuisine = cuisineController.text.trim();
 
+      // Create user account with email and password
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      final userUid = userCredential.user!.uid;
+
+      // Save additional user information to Firestore
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userUid)
+          .collection('userProfile')
+          .doc(userUid) // Use userUid as the document ID
+          .set({
+        'name': name,
+        'cuisine': cuisine,
+      });
+    } on FirebaseAuthException catch (e) {
+      print(e);
       Utils.showSnackBar(e.message);
     }
 

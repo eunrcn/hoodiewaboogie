@@ -26,7 +26,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'hoodie w a boogie',
+      title: 'TasteFinder',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
       home: SplashScreen(),

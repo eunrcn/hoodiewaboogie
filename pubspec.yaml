@@ -29,7 +29,7 @@ dependencies:
   flutter_rating_stars:
 
   # location services
-  location: ^4.3.0
+  location: ^4.3.2
   google_maps_flutter: ^2.3.0
   google_maps_flutter_android: ^2.4.15
   permission_handler: ^8.1.4+2
